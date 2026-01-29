@@ -7,11 +7,13 @@ processors:
   batch:
 
 exporters:
-  logging:
-    loglevel: "info"
+  debug:
+    verbosity: normal  # equivalent to loglevel: "info"
+    sampling_initial: 5
+    sampling_thereafter: 200
 
   otlp/jaeger:
-    endpoint: jaeger-all-in-one:4317
+    endpoint: jaeger:4317
     tls:
       insecure: true
 
@@ -41,4 +43,4 @@ service:
     traces:
       receivers: [solace, otlp]
       processors: [batch, memory_limiter]
-      exporters: [otlp/jaeger, logging]
+      exporters: [otlp/jaeger, debug]
